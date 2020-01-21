@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TripHelper</string>
+    <string name="ic_trip">Trip</string>
+    <string name="ic_history">History</string>
+    <string name="ic_settings">Settings</string>
+    <string name="title_trip">Trip</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
 </resources>

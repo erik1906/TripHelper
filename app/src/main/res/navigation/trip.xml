@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/trip">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/trip"
+        app:startDestination="@id/tripFragment"
+        tools:ignore="UnusedNavigation">
 
+    <fragment
+            android:id="@+id/tripFragment"
+            android:name="com.eagledev.triphelper.ui.TripFragment"
+            android:label="trip_fragment"
+            tools:layout="@layout/trip_fragment" />
 </navigation>

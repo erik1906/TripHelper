@@ -1,6 +1,6 @@
 package com.eagledev.triphelper.di
 
-import com.eagledev.triphelper.MainActivity
+import com.eagledev.triphelper.ui.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
