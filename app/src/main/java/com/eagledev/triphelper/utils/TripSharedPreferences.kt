@@ -16,5 +16,5 @@ class TripSharedPreferences (private val sharedPreferences: SharedPreferences){
 
 
     fun getSeats()=
-        sharedPreferences.getInt("seats", 0)
+        sharedPreferences.getInt("seats", 1)
 }
