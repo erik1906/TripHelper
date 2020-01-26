@@ -9,6 +9,6 @@
     <fragment
             android:id="@+id/tripFragment"
             android:name="com.eagledev.triphelper.ui.TripFragment"
-            android:label="trip_fragment"
+            android:label="Trip"
             tools:layout="@layout/trip_fragment" />
 </navigation>

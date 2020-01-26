@@ -9,6 +9,6 @@
     <fragment
             android:id="@+id/historyFragment"
             android:name="com.eagledev.triphelper.ui.HistoryFragment"
-            android:label="history_fragment"
+            android:label="History"
             tools:layout="@layout/history_fragment" />
 </navigation>
