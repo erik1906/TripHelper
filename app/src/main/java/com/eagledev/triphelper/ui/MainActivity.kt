@@ -50,10 +50,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector, Injectable
             containerId = R.id.nav_host_container,
             intent = intent
         )
-//        setSupportActionBar(bottom_nav)
-//        controller.observe(this, Observer {
-//            setupActionBarWithNavController(it)
-//        })
+        setSupportActionBar(toolbar)
+        controller.observe(this, Observer {
+            setupActionBarWithNavController(it)
+        })
 
         currentNavController = controller
     }

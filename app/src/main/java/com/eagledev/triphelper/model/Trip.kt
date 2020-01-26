@@ -12,6 +12,6 @@ data class Trip(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val dateTime: OffsetDateTime ,
-    val price: Double = 0.0,
+    val price: Float = 0F,
     val passengers: List<Passenger>? = null
 )
