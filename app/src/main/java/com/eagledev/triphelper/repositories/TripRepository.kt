@@ -16,13 +16,18 @@ class TripRepository @Inject constructor(private val tripSharedPreferences: Trip
     val price: LiveData<Int>
         get() = _price
 
+    private val _seats = MutableLiveData(tripSharedPreferences.getSeats())
+
+    val seats: LiveData<Int>
+        get() = _seats
+
     suspend fun getCurrent() =
         tripDao.getCurrent()
 
 
     suspend fun saveTrip(trip: Trip){
-        val saved = tripDao.insertTrip(trip)
-        Timber.tag("SavedState").d("Saved status =  $saved")
+        tripDao.insertTrip(trip)
+
     }
 
 

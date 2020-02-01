@@ -106,7 +106,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
+            app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+            tools:visibility="gone" />
 
     <androidx.constraintlayout.widget.Group
             android:id="@+id/group_active"
@@ -114,7 +115,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="b_finish_trip,scrollView2,tv_estimated,tv_pssenger_count,textView5,tv_passengers_text,tv_date,floatingActionButton"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
     <Button
             android:id="@+id/button_new_trip"
