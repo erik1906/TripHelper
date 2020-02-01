@@ -14,6 +14,7 @@ import com.eagledev.triphelper.di.InjectingSavedStateViewModelFactory
 import com.eagledev.triphelper.model.Passenger
 import com.eagledev.triphelper.model.Trip
 import com.eagledev.triphelper.model.TripInfo
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.edit_text_layout.view.*
 import kotlinx.android.synthetic.main.trip_fragment.*
 import timber.log.Timber
@@ -28,6 +29,7 @@ class TripFragment : Fragment(), Injectable {
 
     private val passengerList: ArrayList<PassengerLayout> = arrayListOf()
 
+    private var name = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,6 +62,15 @@ class TripFragment : Fragment(), Injectable {
             }
         })
 
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {error->
+                if(error){
+                    Snackbar.make(activity!!.findViewById(android.R.id.content), "No tienes mas asientos disponibles", Snackbar.LENGTH_LONG).show()
+                }else{
+                    addPassenger(view, name)
+                }
+            }
+        })
         viewModel.getPassenger().observe(viewLifecycleOwner, Observer {
             it.forEach { passengerStatus ->
                 addPassengerSimple(view, passengerStatus.name, passengerStatus.checked)
@@ -71,7 +82,10 @@ class TripFragment : Fragment(), Injectable {
         }
 
         b_finish_trip.setOnClickListener {
-            viewModel.setTrip(false)
+            viewModel.saveTrip(false)
+            viewModel.clearTrip()
+            passengerList.clear()
+            ll_passengers.removeAllViews()
         }
         floatingActionButton.setOnClickListener {
             getPassengerInfo(view)
@@ -97,7 +111,8 @@ class TripFragment : Fragment(), Injectable {
 
         builder.setPositiveButton("Agregar"
         ) { dialog, _ ->
-            addPassenger(view, editTextLayout.editText.text.toString())
+            name = editTextLayout.editText.text.toString()
+            viewModel.addPassenger()
             dialog.dismiss()
         }
         // create and show the alert dialog
@@ -106,10 +121,8 @@ class TripFragment : Fragment(), Injectable {
     }
 
     private fun addPassenger(view: View, name: String) {
-
         val passengerLayout = PassengerLayout(view.context, name)
         passengerList.add(passengerLayout)
-        viewModel.addPassenger()
         ll_passengers.addView(passengerLayout)
 
     }
@@ -131,11 +144,11 @@ class TripFragment : Fragment(), Injectable {
         ll_passengers.removeAllViews()
         passengerList.clear()
         viewModel.addPassenger(passengerStatus)
+
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         viewModel.saveTrip(true)
     }
 
