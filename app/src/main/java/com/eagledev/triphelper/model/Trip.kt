@@ -11,7 +11,8 @@ import org.threeten.bp.OffsetDateTime
 data class Trip(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val dateTime: OffsetDateTime ,
-    val price: Float = 0F,
-    val passengers: List<Passenger>? = null
+    val tripInfo: TripInfo = TripInfo(),
+    val dateTime: OffsetDateTime,
+    val passengers: List<PassengerStatus>? = null,
+    val active: Boolean = false
 )

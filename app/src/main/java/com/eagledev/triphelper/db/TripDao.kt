@@ -6,7 +6,7 @@ import com.eagledev.triphelper.model.Trip
 @Dao
 abstract class TripDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertTrip(trip: Trip): Long
 
     @Query("SELECT * FROM trip")
@@ -18,4 +18,7 @@ abstract class TripDao {
 
     @Update
     abstract suspend fun updateTrip(trip: Trip): Int
+
+    @Query("SELECT * FROM trip WHERE active == 1")
+    abstract suspend fun getCurrent(): Trip?
 }

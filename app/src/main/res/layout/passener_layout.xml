@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_background"
+        android:elevation="5dp"
+        android:orientation="vertical">
+
+    <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/accent"
+            android:layoutDirection="rtl"
+            android:minHeight="50dp"
+            android:padding="5dp" />
+
+</LinearLayout>

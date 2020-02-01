@@ -26,7 +26,7 @@ class SettingsViewModel @Inject constructor(private val settingsRepository: Sett
 
     fun updateSetting(seats: Int, price: String){
         try {
-            settingsRepository.update(seats, price.toFloat())
+            settingsRepository.update(seats, price.toInt())
         }catch (e:NumberFormatException){
             _empty.value = Event(true)
         }

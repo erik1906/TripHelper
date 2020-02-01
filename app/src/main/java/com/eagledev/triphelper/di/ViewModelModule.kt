@@ -14,11 +14,6 @@ abstract class ViewModelModule {
 
    @Binds
    @IntoMap
-   @ViewModelKey(TripViewModel::class)
-   abstract fun bindTripViewModel (viewModelClass: TripViewModel): ViewModel
-
-   @Binds
-   @IntoMap
    @ViewModelKey(HistoryViewModel::class)
    abstract fun bindHistoryViewModel (viewModelClass: HistoryViewModel): ViewModel
 

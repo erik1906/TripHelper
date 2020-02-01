@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class, RoomModule::class])
+@Module(includes = [ViewModelModule::class, BuilderModule::class, RoomModule::class])
 
 class AppModule{
     @Provides
