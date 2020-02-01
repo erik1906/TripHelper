@@ -4,12 +4,12 @@ import android.content.SharedPreferences
 
 class TripSharedPreferences (private val sharedPreferences: SharedPreferences){
 
-    fun setPrice(price: Float)=
-        sharedPreferences.edit().putFloat("price", price).apply()
+    fun setPrice(price: Int)=
+        sharedPreferences.edit().putInt("price", price).apply()
 
 
     fun getPrice()=
-        sharedPreferences.getFloat("price", 0F)
+        sharedPreferences.getInt("price", 0)
 
     fun setSeats(seats: Int)=
         sharedPreferences.edit().putInt("seats", seats).apply()

@@ -2,6 +2,9 @@ package com.eagledev.triphelper.db
 
 import androidx.room.TypeConverter
 import com.eagledev.triphelper.model.Passenger
+import com.eagledev.triphelper.model.PassengerStatus
+import com.eagledev.triphelper.model.Trip
+import com.eagledev.triphelper.model.TripInfo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.OffsetDateTime
@@ -29,19 +32,32 @@ object TripTypeConverters {
 
     @TypeConverter
     @JvmStatic
-    fun tostringList(value: String?): List<Passenger>?{
+    fun toPassengerStatusList(value: String?): List<PassengerStatus>?{
         if(value == null){
             return null
         }
-        return gson.fromJson<List<Passenger>>(value)
+        return gson.fromJson<List<PassengerStatus>>(value)
     }
 
     @TypeConverter
     @JvmStatic
-    fun fromStringList(value: List<Passenger>?): String? {
+    fun fromPassengerStatusList(value: List<PassengerStatus>?): String? {
         if(value == null){
             return null
         }
+        return gson.toJson(value)
+    }
+
+
+    @TypeConverter
+    @JvmStatic
+    fun toTripInfo(value: String): TripInfo{
+        return gson.fromJson<TripInfo>(value)
+    }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromTripInfo(value: TripInfo?): String? {
         return gson.toJson(value)
     }
 }

@@ -16,7 +16,7 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
 
     private val _price = MutableLiveData(tripSharedPreferences.getPrice())
 
-    val price: LiveData<Float>
+    val price: LiveData<Int>
         get() = _price
 
     private val _seats = MutableLiveData(tripSharedPreferences.getSeats())
@@ -26,7 +26,7 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
 
     val status = MutableLiveData<Event<Boolean>>()
 
-    fun update(seats: Int, price: Float){
+    fun update(seats: Int, price: Int){
         try {
             tripSharedPreferences.setPrice(price)
             tripSharedPreferences.setSeats(seats)
