@@ -1,5 +1,6 @@
 package com.eagledev.triphelper.di
 
+import com.eagledev.triphelper.ui.HistoryDetailFragment
 import com.eagledev.triphelper.ui.HistoryFragment
 import com.eagledev.triphelper.ui.SettingsFragment
 import com.eagledev.triphelper.ui.TripFragment
@@ -17,5 +18,8 @@ abstract class FragmentModule {
 
     @ContributesAndroidInjector
     abstract fun contributeSettingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeHistoryDetailFragment(): HistoryDetailFragment
 
 }

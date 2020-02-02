@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.eagledev.triphelper.db.TripTypeConverters
 import org.threeten.bp.OffsetDateTime
+import java.io.Serializable
 
 @TypeConverters(TripTypeConverters::class)
 @Entity(tableName = "trip")
@@ -15,4 +16,4 @@ data class Trip(
     val dateTime: OffsetDateTime,
     val passengers: List<PassengerStatus>? = null,
     val active: Boolean = false
-)
+): Serializable

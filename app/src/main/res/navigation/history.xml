@@ -10,5 +10,18 @@
             android:id="@+id/historyFragment"
             android:name="com.eagledev.triphelper.ui.HistoryFragment"
             android:label="History"
-            tools:layout="@layout/history_fragment" />
+            tools:layout="@layout/history_fragment" >
+        <action
+                android:id="@+id/action_historyFragment_to_historyDetail"
+                app:destination="@id/historyDetail" />
+    </fragment>
+    <fragment
+            android:id="@+id/historyDetail"
+            android:name="com.eagledev.triphelper.ui.HistoryDetailFragment"
+            android:label="Detail"
+            tools:layout="@layout/history_detail_fragment">
+        <argument
+                android:name="trip"
+                app:argType="com.eagledev.triphelper.model.Trip" />
+    </fragment>
 </navigation>
