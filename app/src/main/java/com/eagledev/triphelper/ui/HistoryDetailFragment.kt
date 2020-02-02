@@ -36,7 +36,7 @@ class HistoryDetailFragment : Fragment(), Injectable {
         args.trip.let{
             tv_date.text = it.dateTime.toFormat()
             tv_estimated.text = it.tripInfo.price.toCurrency()
-            tv_pssenger_count.text = it.tripInfo.count.toString()
+            tv_pssenger_count.text = getProfit( it.passengers, it.currentPrice).toCurrency()
             Timber.tag("cycle").d("Id: ${it.id} passenger: ${it.passengers}")
             it.passengers?.forEach {passenger ->
                 if(passenger.checked){
@@ -52,4 +52,14 @@ class HistoryDetailFragment : Fragment(), Injectable {
 
     }
 
+    private fun getProfit(list: List<PassengerStatus>?, price: Int): Int {
+        var profit = 0
+        list?.forEach {
+            if(it.checked){
+                profit += price
+            }
+        }
+        return profit
+
+    }
 }

@@ -105,19 +105,20 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
 
     fun saveTrip(active: Boolean) {
         if(inTrip().value == true) {
-            Timber.tag("cycle").d("Id saved Id: $id Size: ${savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value}")
+            val trip = Trip(
+                id = id,
+                dateTime = day,
+                tripInfo = savedStateHandle.getLiveData<TripInfo>(COUNT).value
+                    ?: TripInfo(),
+                passengers = savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value
+                    ?: listOf(),
+                active = active,
+                currentPrice = tripRepository.price.value ?: 0
+            )
+            Timber.tag("cycle").d("Id saved Id: $id trip: ${trip.passengers}")
             GlobalScope.launch(Dispatchers.IO) {
                 tripRepository.saveTrip(
-                    Trip(
-                        id = id,
-                        dateTime = day,
-                        tripInfo = savedStateHandle.getLiveData<TripInfo>(COUNT).value
-                            ?: TripInfo(),
-                        passengers = savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value
-                            ?: listOf(),
-                        active = active,
-                        currentPrice = tripRepository.price.value ?: 0
-                    )
+                    trip
                 )
             }
         }
