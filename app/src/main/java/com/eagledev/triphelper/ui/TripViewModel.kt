@@ -43,14 +43,15 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
         override fun create(savedStateHandle: SavedStateHandle): TripViewModel
     }
 
-    init {
+    fun start() {
+
+        tripRepository.update()
         viewModelScope.launch(Dispatchers.Main){
             tripRepository.getCurrent()?.let {
+                Timber.tag("cycle").d("Id : ${it.id} ${it.active }")
                 id = it.id
                 day = it.dateTime
                 count = it.tripInfo.count
-
-
                 val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT)
                 val date = day.format(formatter)
 
@@ -104,6 +105,7 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
 
     fun saveTrip(active: Boolean) {
         if(inTrip().value == true) {
+            Timber.tag("cycle").d("Id saved Id: $id Size: ${savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value}")
             GlobalScope.launch(Dispatchers.IO) {
                 tripRepository.saveTrip(
                     Trip(
@@ -113,7 +115,8 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
                             ?: TripInfo(),
                         passengers = savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value
                             ?: listOf(),
-                        active = active
+                        active = active,
+                        currentPrice = tripRepository.price.value ?: 0
                     )
                 )
             }
@@ -127,7 +130,6 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
         savedStateHandle.set(IN_TRIP, false)
         id = 0
         count = 0
-
     }
 
 

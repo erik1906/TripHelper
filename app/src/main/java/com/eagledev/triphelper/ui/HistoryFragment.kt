@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 
 import com.eagledev.triphelper.R
 import com.eagledev.triphelper.di.Injectable
@@ -35,7 +36,8 @@ class HistoryFragment : Fragment(), Injectable {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HistoryViewModel::class.java)
 
         val adapter = TripAdapter{
-            Timber.d("Id: ${it.id}")
+            val directions = HistoryFragmentDirections.actionHistoryFragmentToHistoryDetail(it)
+            findNavController().navigate(directions)
         }
 
         rv_history.adapter = adapter

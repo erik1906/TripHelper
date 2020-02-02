@@ -11,7 +11,7 @@ abstract class TripDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertTrip(trip: Trip): Long
 
-    @Query("SELECT * FROM trip ORDER BY id DESC")
+    @Query("SELECT * FROM trip  WHERE active == 0 ORDER BY id DESC")
     abstract fun getTrips(): DataSource.Factory<Int, Trip>
 
     @Query("SELECT * FROM trip WHERE id = :id")

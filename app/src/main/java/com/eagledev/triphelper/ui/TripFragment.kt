@@ -42,9 +42,7 @@ class TripFragment : Fragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModelFactory = abstractFactory.create(this)
-        passengerList.clear()
         viewModel = ViewModelProviders.of( this, viewModelFactory).get(TripViewModel::class.java)
-
 
         viewModel.getDate().observe(viewLifecycleOwner, Observer {
             tv_date.text = it
@@ -72,6 +70,8 @@ class TripFragment : Fragment(), Injectable {
             }
         })
         viewModel.getPassenger().observe(viewLifecycleOwner, Observer {
+            passengerList.clear()
+            ll_passengers.removeAllViews()
             it.forEach { passengerStatus ->
                 addPassengerSimple(view, passengerStatus.name, passengerStatus.checked)
             }
@@ -82,6 +82,11 @@ class TripFragment : Fragment(), Injectable {
         }
 
         b_finish_trip.setOnClickListener {
+
+            val passengerStatus = passengerList.map {
+                it.toPassengerStatus()
+            }
+            viewModel.addPassenger(passengerStatus)
             viewModel.saveTrip(false)
             viewModel.clearTrip()
             passengerList.clear()
@@ -96,10 +101,13 @@ class TripFragment : Fragment(), Injectable {
             tv_pssenger_count.text = it.count.toString()
         })
 
-        viewModel.getPassenger().observe(viewLifecycleOwner, Observer {
 
-        })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.start()
     }
 
     private fun getPassengerInfo(view: View) {
