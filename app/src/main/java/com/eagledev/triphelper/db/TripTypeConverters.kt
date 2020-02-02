@@ -13,7 +13,7 @@ import org.threeten.bp.OffsetDateTime
 object TripTypeConverters {
 
     private val gson = Gson()
-    inline  fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object: TypeToken<T>() {}.type)
+    private inline  fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object: TypeToken<T>() {}.type)
 
 
     private val formatter = org.threeten.bp.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME

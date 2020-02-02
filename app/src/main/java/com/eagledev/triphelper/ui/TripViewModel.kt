@@ -49,6 +49,8 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
                 id = it.id
                 day = it.dateTime
                 count = it.tripInfo.count
+
+
                 val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT)
                 val date = day.format(formatter)
 

@@ -6,10 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.eagledev.triphelper.R
 import com.eagledev.triphelper.di.Injectable
 import com.eagledev.triphelper.utils.ViewModelFactory
+import kotlinx.android.synthetic.main.history_fragment.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class HistoryFragment : Fragment(), Injectable {
@@ -30,5 +33,15 @@ class HistoryFragment : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HistoryViewModel::class.java)
+
+        val adapter = TripAdapter{
+            Timber.d("Id: ${it.id}")
+        }
+
+        rv_history.adapter = adapter
+
+        viewModel.tripList.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
     }
 }
