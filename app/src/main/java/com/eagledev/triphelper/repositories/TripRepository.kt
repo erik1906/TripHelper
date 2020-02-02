@@ -26,12 +26,15 @@ class TripRepository @Inject constructor(private val tripSharedPreferences: Trip
 
 
     suspend fun saveTrip(trip: Trip){
-        tripDao.insertTrip(trip)
+        val tripRes = tripDao.insertTrip(trip)
 
+        Timber.tag("cycle").d("Res = $tripRes Id : ${trip.id} ${trip.passengers }")
     }
 
-
-
+    fun update() {
+        _price.value = tripSharedPreferences.getPrice()
+        _seats.value = tripSharedPreferences.getSeats()
+    }
 
 
 }

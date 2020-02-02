@@ -15,5 +15,6 @@ data class Trip(
     val tripInfo: TripInfo = TripInfo(),
     val dateTime: OffsetDateTime,
     val passengers: List<PassengerStatus>? = null,
-    val active: Boolean = false
+    val active: Boolean = false,
+    val currentPrice: Int = 0
 ): Serializable

@@ -35,12 +35,12 @@ class HistoryDetailFragment : Fragment(), Injectable {
 
         args.trip.let{
             tv_date.text = it.dateTime.toFormat()
-            tv_estimated.text = getProfit(it.passengers, it.tripInfo.price).toCurrency()
+            tv_estimated.text = it.tripInfo.price.toCurrency()
             tv_pssenger_count.text = it.tripInfo.count.toString()
-
+            Timber.tag("cycle").d("Id: ${it.id} passenger: ${it.passengers}")
             it.passengers?.forEach {passenger ->
                 if(passenger.checked){
-                    val layout = PassengerDetailLayout(view.context,passenger.name, it.tripInfo.price.toCurrency())
+                    val layout = PassengerDetailLayout(view.context,passenger.name, it.currentPrice.toCurrency())
                     ll_passengers.addView(layout)
                 }else{
                     val layout = PassengerDetailLayout(view.context,passenger.name, "00.00")
@@ -52,14 +52,4 @@ class HistoryDetailFragment : Fragment(), Injectable {
 
     }
 
-    private fun getProfit(list: List<PassengerStatus>?, price: Int): Int {
-        var profit = 0
-        list?.forEach {
-            if(it.checked){
-                profit += price
-            }
-        }
-        return profit
-
-    }
 }
