@@ -11,5 +11,11 @@
     <style name="ToolBarTheme" parent="AppTheme">
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
     </style>
+
+    <style name="NormalText">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>
 
