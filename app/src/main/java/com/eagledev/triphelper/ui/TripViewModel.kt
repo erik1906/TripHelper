@@ -45,10 +45,7 @@ class TripViewModel @AssistedInject constructor(
     val error: LiveData<Event<Boolean>>
         get() = _error
 
-    private val seatCount = Transformations.map(seatCountUseCase.observe()){
-        Timber.tag("settdebug").d("Settings Seat vieModel  $it}")
-        it
-    }
+    private var seatCount = Transformations.map(seatCountUseCase()){it}
 
     val savedRes = Transformations.map(savedTripUseCase.observe()){it}
 
@@ -57,10 +54,6 @@ class TripViewModel @AssistedInject constructor(
         override fun create(savedStateHandle: SavedStateHandle): TripViewModel
     }
 
-    init {
-        seatCountUseCase()
-        Timber.tag("settdebug").d("Settings Seat init")
-    }
     fun start() {
 
        /* tripRepository.update()*/
@@ -108,7 +101,7 @@ class TripViewModel @AssistedInject constructor(
     fun getPassengerCount() = savedStateHandle.getLiveData<TripInfo>(COUNT)
 
     fun addPassenger() {
-        Timber.tag("settdebug").d("Settings Seat vieModel  ${seatCountUseCase.observe().value}")
+        Timber.tag("settdebug").d("Settings Seat vieModel  count: $count  Seat count: ${seatCountUseCase.observe().value}")
 
         if(count < seatCount.value ?: 0) {
             _error.value = Event(false)

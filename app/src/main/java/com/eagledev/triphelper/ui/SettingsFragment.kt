@@ -46,7 +46,7 @@ class SettingsFragment : Fragment(), Injectable {
         })
 
         viewModel.seats.observe(viewLifecycleOwner, Observer {
-            number_picker.value = it.seats
+            number_picker.value = it
         })
 
         viewModel.updateStatus.observe(viewLifecycleOwner, Observer {
