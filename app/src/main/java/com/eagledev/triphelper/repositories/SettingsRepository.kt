@@ -2,6 +2,7 @@ package com.eagledev.triphelper.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.eagledev.triphelper.model.Settings
 import com.eagledev.triphelper.utils.Event
 import com.eagledev.triphelper.utils.TripSharedPreferences
 import timber.log.Timber
@@ -14,15 +15,11 @@ import javax.inject.Singleton
 class SettingsRepository @Inject constructor(private val tripSharedPreferences: TripSharedPreferences){
 
 
-    private val _price = MutableLiveData(tripSharedPreferences.getPrice())
+    private val _settings = MutableLiveData(Settings())
 
-    val price: LiveData<Int>
-        get() = _price
+    private val settings: LiveData<Settings>
+        get() = _settings
 
-    private val _seats = MutableLiveData(tripSharedPreferences.getSeats())
-
-    val seats: LiveData<Int>
-        get() = _seats
 
     val status = MutableLiveData<Event<Boolean>>()
 
@@ -30,12 +27,20 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
         try {
             tripSharedPreferences.setPrice(price)
             tripSharedPreferences.setSeats(seats)
-            _seats.value = tripSharedPreferences.getSeats()
-            _price.value = tripSharedPreferences.getPrice()
+            val newSettings = Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice())
+           _settings.value = newSettings
             status.value = Event(true)
+            Timber.tag("settdebug").d("Settings ${settings.value}")
+
         }catch (e: Exception){
             Timber.e(e)
             status.value = Event(false)
         }
     }
+
+    fun getSetting(): Settings =
+        Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice())
+
+    fun observableSettings() =
+        settings
 }
