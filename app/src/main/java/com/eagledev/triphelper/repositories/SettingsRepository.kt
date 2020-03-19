@@ -15,9 +15,9 @@ import javax.inject.Singleton
 class SettingsRepository @Inject constructor(private val tripSharedPreferences: TripSharedPreferences){
 
 
-    val _settings = MutableLiveData(Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice()))
+    private val _settings = MutableLiveData(Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice()))
 
-    val settings: LiveData<Settings>
+    private val settings: LiveData<Settings>
         get() = _settings
 
 
@@ -44,8 +44,7 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
     fun getSetting(): Settings =
         Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice())
 
-    fun observableSettings(): LiveData<Settings>{
-        Timber.tag("settdebug").d("Settings repo obser ${settings}")
-        return settings
-    }
+    fun observableSettings(): LiveData<Settings> =
+        settings
+
 }

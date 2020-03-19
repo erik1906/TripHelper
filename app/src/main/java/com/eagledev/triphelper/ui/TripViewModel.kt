@@ -56,7 +56,7 @@ class TripViewModel @AssistedInject constructor(
     interface Factory: AssistedSavedStateViewModelFactory<TripViewModel>{
         override fun create(savedStateHandle: SavedStateHandle): TripViewModel
     }
-    
+
 
     fun start() {
 
@@ -109,7 +109,7 @@ class TripViewModel @AssistedInject constructor(
             _error.value = Event(false)
             val current = savedStateHandle.getLiveData<TripInfo>(COUNT).value ?: TripInfo()
 
-            val tripInfo = TripInfo(current.count + 1, (current.count + 1) * (currentPriceUseCase().value ?: 0))
+            val tripInfo = TripInfo(current.count + 1, (current.count + 1) * currentPriceUseCase())
             savedStateHandle.set(COUNT, tripInfo)
             count++
         }else{

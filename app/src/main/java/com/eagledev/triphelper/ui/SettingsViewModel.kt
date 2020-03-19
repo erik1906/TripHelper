@@ -18,7 +18,7 @@ class SettingsViewModel @Inject constructor(private val settingsRepository: Sett
 
     val seats = Transformations.map(settingsRepository.observableSettings()){it.seats}
 
-    val price = Transformations.map(currentPriceUseCase()){it}
+    val price = Transformations.map(settingsRepository.observableSettings()){it.price}
 
     val updateStatus = Transformations.map(settingsRepository.status){it}
 

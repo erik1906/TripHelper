@@ -9,6 +9,6 @@ import javax.inject.Singleton
 open class CurrentPriceUseCase @Inject constructor(private val settingsRepository: SettingsRepository){
 
     open operator fun invoke() =
-        Transformations.map(settingsRepository.observableSettings()){it.price}
+        settingsRepository.getSetting().price
 
 }
