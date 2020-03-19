@@ -15,14 +15,17 @@ import javax.inject.Singleton
 class SettingsRepository @Inject constructor(private val tripSharedPreferences: TripSharedPreferences){
 
 
-    private val _settings = MutableLiveData(Settings())
+    val _settings = MutableLiveData(Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice()))
 
-    private val settings: LiveData<Settings>
+    val settings: LiveData<Settings>
         get() = _settings
 
 
     val status = MutableLiveData<Event<Boolean>>()
 
+    init {
+        Timber.tag("settdebug").d("Settings repo init")
+    }
     fun update(seats: Int, price: Int){
         try {
             tripSharedPreferences.setPrice(price)
@@ -41,6 +44,8 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
     fun getSetting(): Settings =
         Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice())
 
-    fun observableSettings() =
-        settings
+    fun observableSettings(): LiveData<Settings>{
+        Timber.tag("settdebug").d("Settings repo obser ${settings}")
+        return settings
+    }
 }

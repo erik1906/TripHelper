@@ -7,6 +7,7 @@ import com.eagledev.triphelper.domain.SeatCountUseCase
 import com.eagledev.triphelper.model.PassengerStatus
 import com.eagledev.triphelper.model.Trip
 import com.eagledev.triphelper.model.TripInfo
+import com.eagledev.triphelper.repositories.SettingsRepository
 import com.eagledev.triphelper.repositories.TripRepository
 import com.eagledev.triphelper.utils.AssistedSavedStateViewModelFactory
 import com.eagledev.triphelper.utils.Event
@@ -33,7 +34,8 @@ class TripViewModel @AssistedInject constructor(
     private val tripRepository: TripRepository,
     private val savedTripUseCase: SaveTripUseCase,
     private val seatCountUseCase: SeatCountUseCase,
-    private val currentPriceUseCase: CurrentPriceUseCase
+    private val currentPriceUseCase: CurrentPriceUseCase,
+    private val settingsRepository: SettingsRepository
 ): ViewModel() {
 
     private var id = 0
@@ -45,21 +47,22 @@ class TripViewModel @AssistedInject constructor(
     val error: LiveData<Event<Boolean>>
         get() = _error
 
-    private var seatCount = Transformations.map(seatCountUseCase()){it}
+
 
     val savedRes = Transformations.map(savedTripUseCase.observe()){it}
+
 
     @AssistedInject.Factory
     interface Factory: AssistedSavedStateViewModelFactory<TripViewModel>{
         override fun create(savedStateHandle: SavedStateHandle): TripViewModel
     }
+    
 
     fun start() {
 
        /* tripRepository.update()*/
         viewModelScope.launch(Dispatchers.Main){
             tripRepository.getCurrent()?.let {
-                Timber.tag("cycle").d("Id : ${it.id} ${it.active }")
                 id = it.id
                 day = it.dateTime
                 count = it.tripInfo.count
@@ -101,9 +104,8 @@ class TripViewModel @AssistedInject constructor(
     fun getPassengerCount() = savedStateHandle.getLiveData<TripInfo>(COUNT)
 
     fun addPassenger() {
-        Timber.tag("settdebug").d("Settings Seat vieModel  count: $count  Seat count: ${seatCountUseCase.observe().value}")
 
-        if(count < seatCount.value ?: 0) {
+        if(count < seatCountUseCase()) {
             _error.value = Event(false)
             val current = savedStateHandle.getLiveData<TripInfo>(COUNT).value ?: TripInfo()
 

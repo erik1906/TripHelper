@@ -13,20 +13,8 @@ import javax.inject.Singleton
 @Singleton
 open class SeatCountUseCase @Inject constructor(private val settingsRepository: SettingsRepository) {
 
+    open operator fun invoke() =
+        settingsRepository.getSetting().seats
 
-    private val result = MediatorLiveData<Int>()
-    open operator fun invoke(): MediatorLiveData<Int> {
-        Transformations.map(settingsRepository.observableSettings()) {
-            Timber.tag("settdebug").d("Settings Seat use case ${it.seats}")
 
-            result.postValue(it.seats)
-            it
-        }
-
-        return result
-    }
-
-    fun observe(): MediatorLiveData<Int> {
-        return result
-    }
 }

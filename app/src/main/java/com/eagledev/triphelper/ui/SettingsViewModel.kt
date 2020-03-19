@@ -12,12 +12,11 @@ import java.lang.NumberFormatException
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(private val settingsRepository: SettingsRepository,
-                                            seatCountUseCase: SeatCountUseCase,
                                             currentPriceUseCase: CurrentPriceUseCase
 ): ViewModel() {
 
 
-    val seats = Transformations.map(seatCountUseCase()){it}
+    val seats = Transformations.map(settingsRepository.observableSettings()){it.seats}
 
     val price = Transformations.map(currentPriceUseCase()){it}
 
