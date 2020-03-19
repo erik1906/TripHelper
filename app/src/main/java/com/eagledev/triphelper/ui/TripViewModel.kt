@@ -1,9 +1,13 @@
 package com.eagledev.triphelper.ui
 
 import androidx.lifecycle.*
+import com.eagledev.triphelper.domain.CurrentPriceUseCase
+import com.eagledev.triphelper.domain.SaveTripUseCase
+import com.eagledev.triphelper.domain.SeatCountUseCase
 import com.eagledev.triphelper.model.PassengerStatus
 import com.eagledev.triphelper.model.Trip
 import com.eagledev.triphelper.model.TripInfo
+import com.eagledev.triphelper.repositories.SettingsRepository
 import com.eagledev.triphelper.repositories.TripRepository
 import com.eagledev.triphelper.utils.AssistedSavedStateViewModelFactory
 import com.eagledev.triphelper.utils.Event
@@ -25,7 +29,14 @@ const val COUNT = "count"
 
 
 
-class TripViewModel @AssistedInject constructor(@Assisted private val savedStateHandle: SavedStateHandle, private val tripRepository: TripRepository): ViewModel() {
+class TripViewModel @AssistedInject constructor(
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val tripRepository: TripRepository,
+    private val savedTripUseCase: SaveTripUseCase,
+    private val seatCountUseCase: SeatCountUseCase,
+    private val currentPriceUseCase: CurrentPriceUseCase,
+    private val settingsRepository: SettingsRepository
+): ViewModel() {
 
     private var id = 0
     private lateinit var day: OffsetDateTime
@@ -38,17 +49,20 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
 
 
 
+    val savedRes = Transformations.map(savedTripUseCase.observe()){it}
+
+
     @AssistedInject.Factory
     interface Factory: AssistedSavedStateViewModelFactory<TripViewModel>{
         override fun create(savedStateHandle: SavedStateHandle): TripViewModel
     }
 
+
     fun start() {
 
-        tripRepository.update()
+       /* tripRepository.update()*/
         viewModelScope.launch(Dispatchers.Main){
             tripRepository.getCurrent()?.let {
-                Timber.tag("cycle").d("Id : ${it.id} ${it.active }")
                 id = it.id
                 day = it.dateTime
                 count = it.tripInfo.count
@@ -91,10 +105,11 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
 
     fun addPassenger() {
 
-        if(count < tripRepository.seats.value ?: 0) {
+        if(count < seatCountUseCase()) {
             _error.value = Event(false)
             val current = savedStateHandle.getLiveData<TripInfo>(COUNT).value ?: TripInfo()
-            val tripInfo = TripInfo(current.count + 1, (current.count + 1) * (tripRepository.price.value ?: 0))
+
+            val tripInfo = TripInfo(current.count + 1, (current.count + 1) * currentPriceUseCase())
             savedStateHandle.set(COUNT, tripInfo)
             count++
         }else{
@@ -108,18 +123,12 @@ class TripViewModel @AssistedInject constructor(@Assisted private val savedState
             val trip = Trip(
                 id = id,
                 dateTime = day,
-                tripInfo = savedStateHandle.getLiveData<TripInfo>(COUNT).value
-                    ?: TripInfo(),
-                passengers = savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value
-                    ?: listOf(),
-                active = active,
-                currentPrice = tripRepository.price.value ?: 0
+                tripInfo = savedStateHandle.getLiveData<TripInfo>(COUNT).value ?: TripInfo(),
+                passengers = savedStateHandle.getLiveData<List<PassengerStatus>>(PASSENGERS).value ?: listOf(),
+                active = active
             )
-            Timber.tag("cycle").d("Id saved Id: $id trip: ${trip.passengers}")
             GlobalScope.launch(Dispatchers.IO) {
-                tripRepository.saveTrip(
-                    trip
-                )
+                savedTripUseCase(trip)
             }
         }
     }

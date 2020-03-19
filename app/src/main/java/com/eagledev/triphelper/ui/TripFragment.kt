@@ -119,6 +119,7 @@ class TripFragment : Fragment(), Injectable {
 
         builder.setPositiveButton("Agregar"
         ) { dialog, _ ->
+            Timber.tag("settdebug").d("Settings Seat alert ")
             name = editTextLayout.editText.text.toString()
             viewModel.addPassenger()
             dialog.dismiss()

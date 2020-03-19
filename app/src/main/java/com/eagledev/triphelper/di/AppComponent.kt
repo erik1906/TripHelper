@@ -1,7 +1,6 @@
 package com.eagledev.triphelper.di
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatActivity
 import com.eagledev.triphelper.TripHelperApp
 import dagger.BindsInstance
 import dagger.Component
