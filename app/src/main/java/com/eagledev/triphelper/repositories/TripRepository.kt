@@ -6,14 +6,23 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class TripRepository @Inject constructor(private val tripDao: TripDao){
 
-    suspend fun getCurrent() =
+interface TripRepository {
+    suspend fun getCurrent(): Trip?
+
+    suspend fun saveTrip(trip: Trip): Boolean
+}
+
+
+
+@Singleton
+class DefaultTripRepository @Inject constructor(private val tripDao: TripDao): TripRepository{
+
+    override suspend fun getCurrent() =
         tripDao.getCurrent()
 
 
-    suspend fun saveTrip(trip: Trip): Boolean{
+    override suspend fun saveTrip(trip: Trip): Boolean{
 
         return try {
             val tripRes = tripDao.insertTrip(trip)
