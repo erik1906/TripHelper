@@ -59,7 +59,6 @@ class TripViewModel @AssistedInject constructor(
 
 
     fun start() {
-
        /* tripRepository.update()*/
         viewModelScope.launch(Dispatchers.Main){
             tripRepository.getCurrent()?.let {
@@ -79,6 +78,7 @@ class TripViewModel @AssistedInject constructor(
     }
 
     fun getDate() = savedStateHandle.getLiveData<String>(DATE)
+
 
     fun inTrip() = savedStateHandle.getLiveData<Boolean>(IN_TRIP)
 
