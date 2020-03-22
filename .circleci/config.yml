@@ -11,8 +11,8 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-         command: sudo chmod +x ./gradlew
+          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+          command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -20,17 +20,20 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-
-
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+          # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
   testdev:
     working_directory: ~/code
-      docker:
-          - image: circleci/android:api-28-alpha
-      environment:
-        JVM_OPTS: -Xmx3200m
+    docker:
+      - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+          command: sudo chmod +x ./gradlew
       - run:
           name: Run Tests
           command: ./gradlew lint test
@@ -48,9 +51,9 @@ workflows:
     jobs:
       - build
       - testdev:
-        requires:
-          - build
-        filters:
-          branches:
-            only:
-              - dev
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
