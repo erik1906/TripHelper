@@ -1,23 +1,22 @@
 package com.eagledev.triphelper.ui
 
-import androidx.lifecycle.ViewModelProviders
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.eagledev.triphelper.R
 import com.eagledev.triphelper.di.Injectable
 import com.eagledev.triphelper.di.InjectingSavedStateViewModelFactory
-import com.eagledev.triphelper.model.Passenger
-import com.eagledev.triphelper.model.Trip
-import com.eagledev.triphelper.model.TripInfo
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.edit_text_layout.view.*
 import kotlinx.android.synthetic.main.trip_fragment.*
 import timber.log.Timber
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class TripFragment : Fragment(), Injectable {
@@ -38,6 +37,7 @@ class TripFragment : Fragment(), Injectable {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -97,8 +97,12 @@ class TripFragment : Fragment(), Injectable {
         }
 
         viewModel.getPassengerCount().observe(viewLifecycleOwner, Observer {
-            tv_estimated.text = it.price.toString()
-            tv_pssenger_count.text = it.count.toString()
+            val formatter = DecimalFormat("#,###.00")
+           formatter.format(it.price)?.let{number ->
+                tv_estimated.text = "$ $number"
+            }
+
+            tv_passenger_count.text = it.count.toString()
         })
 
 
