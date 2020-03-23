@@ -24,33 +24,47 @@
 
     <TextView
             android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
+            style="@style/NormalTextLarge"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/center"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_date_text"
             tools:text="1/19/2020" />
 
     <TextView
             android:id="@+id/tv_passengers_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Pasajeros:"
-            app:layout_constraintEnd_toStartOf="@+id/center"
-            app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+            android:text="@string/passenger_text"
+            app:layout_constraintStart_toStartOf="@+id/center"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/tv_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/date_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Estimado: "
-            app:layout_constraintEnd_toStartOf="@+id/center"
-            app:layout_constraintTop_toBottomOf="@+id/tv_passengers_text" />
+            android:text="@string/estimated_text"
+            app:layout_constraintStart_toStartOf="@+id/center"
+            app:layout_constraintTop_toBottomOf="@+id/tv_passenger_count" />
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/center"
@@ -60,21 +74,24 @@
             app:layout_constraintGuide_percent=".5" />
 
     <TextView
-            android:id="@+id/tv_pssenger_count"
+            android:id="@+id/tv_passenger_count"
+            style="@style/NormalTextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="@+id/center"
-            app:layout_constraintTop_toTopOf="@+id/tv_passengers_text"
+            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_passengers_text"
+            app:layout_constraintTop_toBottomOf="@+id/tv_passengers_text"
             tools:text="5" />
 
     <TextView
             android:id="@+id/tv_estimated"
+            style="@style/NormalTextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="3dp"
             app:layout_constraintStart_toStartOf="@+id/center"
-            app:layout_constraintTop_toTopOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
             tools:text="$ 100.00" />
 
     <ScrollView
@@ -88,7 +105,7 @@
             app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5">
+            app:layout_constraintTop_toBottomOf="@+id/tv_estimated">
 
         <LinearLayout
                 android:id="@+id/ll_passengers"
@@ -102,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Terminar viaje"
+            android:text="@string/finish_trip"
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,14 +131,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="b_finish_trip,scrollView2,tv_estimated,tv_pssenger_count,textView5,tv_passengers_text,tv_date,floatingActionButton"
+            app:constraint_referenced_ids="b_finish_trip,scrollView2,tv_estimated,tv_passenger_count,textView5,tv_passengers_text,tv_date,floatingActionButton,tv_date_text"
             tools:visibility="visible" />
 
     <Button
             android:id="@+id/button_new_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nuevo viaje"
+            android:text="@string/new_trip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

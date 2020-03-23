@@ -9,4 +9,10 @@
 
 
     <string name="passengers">Passengers %1$d</string>
+    <string name="passenger_text">Pasajeros:</string>
+    <string name="date_text">Fecha:</string>
+    <string name="estimated_text">Estimado:</string>
+    <string name="finish_trip">Terminar viaje</string>
+    <string name="new_trip">Nuevo viaje</string>
+    <string name="text_revenue">Ganancia</string>
 </resources>

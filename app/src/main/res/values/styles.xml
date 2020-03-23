@@ -17,5 +17,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="NormalTextLarge">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="NormalTextMedium">
+        <item name="android:textColor">@color/textBlack</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
 
