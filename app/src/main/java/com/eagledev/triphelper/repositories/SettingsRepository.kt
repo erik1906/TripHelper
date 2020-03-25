@@ -11,8 +11,15 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
+interface SettingsRepository{
+    val status:MutableLiveData<Event<Boolean>>
+    fun update(seats: Int, price: Int)
+    fun getSetting(): Settings
+    fun observableSettings(): LiveData<Settings>
+}
+
 @Singleton
-class SettingsRepository @Inject constructor(private val tripSharedPreferences: TripSharedPreferences){
+class DefaultSettingsRepository @Inject constructor(private val tripSharedPreferences: TripSharedPreferences): SettingsRepository{
 
 
     private val _settings = MutableLiveData(Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice()))
@@ -21,12 +28,10 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
         get() = _settings
 
 
-    val status = MutableLiveData<Event<Boolean>>()
+    override val status = MutableLiveData<Event<Boolean>>()
 
-    init {
-        Timber.tag("settdebug").d("Settings repo init")
-    }
-    fun update(seats: Int, price: Int){
+
+    override fun update(seats: Int, price: Int){
         try {
             tripSharedPreferences.setPrice(price)
             tripSharedPreferences.setSeats(seats)
@@ -41,10 +46,10 @@ class SettingsRepository @Inject constructor(private val tripSharedPreferences: 
         }
     }
 
-    fun getSetting(): Settings =
+    override fun getSetting(): Settings =
         Settings(tripSharedPreferences.getSeats(), tripSharedPreferences.getPrice())
 
-    fun observableSettings(): LiveData<Settings> =
+    override fun observableSettings(): LiveData<Settings> =
         settings
 
 }

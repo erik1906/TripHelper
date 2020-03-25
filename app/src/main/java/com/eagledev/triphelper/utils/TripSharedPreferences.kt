@@ -2,19 +2,26 @@ package com.eagledev.triphelper.utils
 
 import android.content.SharedPreferences
 
-class TripSharedPreferences (private val sharedPreferences: SharedPreferences){
+interface TripSharedPreferences{
+    fun setPrice(price: Int)
+    fun getPrice():Int
+    fun setSeats(seats: Int)
+    fun getSeats():Int
+}
 
-    fun setPrice(price: Int)=
+class DefaultTripSharedPreferences (private val sharedPreferences: SharedPreferences): TripSharedPreferences{
+
+    override fun setPrice(price: Int)=
         sharedPreferences.edit().putInt("price", price).apply()
 
 
-    fun getPrice()=
+    override fun getPrice()=
         sharedPreferences.getInt("price", 0)
 
-    fun setSeats(seats: Int)=
+    override fun setSeats(seats: Int)=
         sharedPreferences.edit().putInt("seats", seats).apply()
 
 
-    fun getSeats()=
+    override fun getSeats()=
         sharedPreferences.getInt("seats", 1)
 }

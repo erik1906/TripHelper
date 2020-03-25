@@ -16,6 +16,7 @@ import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Rule
 
+@ExperimentalCoroutinesApi
 class TripViewModelTest {
 
     // Subject under test
@@ -30,6 +31,7 @@ class TripViewModelTest {
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
 
 
     @Before

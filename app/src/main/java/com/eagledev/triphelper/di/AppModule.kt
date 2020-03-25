@@ -4,10 +4,8 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.eagledev.triphelper.db.TripDao
-import com.eagledev.triphelper.repositories.DefaultHistoryRepository
-import com.eagledev.triphelper.repositories.DefaultTripRepository
-import com.eagledev.triphelper.repositories.HistoryRepository
-import com.eagledev.triphelper.repositories.TripRepository
+import com.eagledev.triphelper.repositories.*
+import com.eagledev.triphelper.utils.DefaultTripSharedPreferences
 import com.eagledev.triphelper.utils.TripSharedPreferences
 import dagger.Module
 import dagger.Provides
@@ -23,8 +21,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun providesTripSharedPreferences(sharedPreferences: SharedPreferences) =
-        TripSharedPreferences(sharedPreferences)
+    fun providesTripSharedPreferences(sharedPreferences: SharedPreferences): TripSharedPreferences =
+        DefaultTripSharedPreferences(sharedPreferences)
 
     @Singleton
     @Provides
@@ -36,5 +34,11 @@ class AppModule {
     @Provides
     fun provideHistoryRepository(tripDao: TripDao):HistoryRepository {
         return DefaultHistoryRepository(tripDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideSettingsRepository(tripSharedPreferences: TripSharedPreferences):SettingsRepository {
+        return DefaultSettingsRepository(tripSharedPreferences)
     }
 }
